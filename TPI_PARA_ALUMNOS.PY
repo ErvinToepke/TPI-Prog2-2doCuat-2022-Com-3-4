@@ -104,6 +104,7 @@ class Motocicleta:
         self.modelo = modelo
         self.marca = marca
         self.cilindrada = cilindrada
+        self.color = color
         self.precio = precio
         self.fechaUltimoPrecio = fechaUltimoPrecio
 
