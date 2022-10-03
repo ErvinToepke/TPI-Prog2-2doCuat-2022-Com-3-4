@@ -69,11 +69,11 @@ class Automovil:
             conexion.cerrarConexion()
     
     
-    def modificar_automoviles(self):
+    def modificar_automoviles(self, precio: float, marca: str, modelo:str):
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("UPDATE AUTOMOVILES SET precio='{}' where marca='{}' and modelo='{}' ".format(self.precio,self.marca,self.modelo))
+            conexion.miCursor.execute("UPDATE AUTOMOVILES SET precio='{precio}' where marca='{marca}' and modelo='{modelo}' ".format(self.precio,self.marca,self.modelo))
             conexion.miConexion.commit()
             print("Automovil modificado correctamente")
         except:
@@ -82,10 +82,21 @@ class Automovil:
             conexion.cerrarConexion()  
 
     # def borrar_automovil(self):
+        # conexion = Conexiones()
+        # conexion.abrirConexion()
+        # try:
+        #     conexion.miCursor.execute("")
+        #     conexion.miConexion.commit()
+        #     print("Automovid borrado exitosamente")
+        # except:
+        #     print("Error al borrar un automovil")
+        # finally:
+        #     conexion.cerrarConexion()
 
     # def cargar_disponibilidad(self):
 
     # def listado_automoviles(self):
+
 
 class Motocicleta:   
  
@@ -108,9 +119,9 @@ class Motocicleta:
         finally:
             conexion.cerrarConexion()
 
-    # def aumentar_precios():
+    # def aumentar_precios(self):
 
-    # def mostrar_registros():
+    # def mostrar_registros(self):
     
 class Conexiones:
     
