@@ -89,7 +89,7 @@ class Automovil:
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("INSERT INTO AUTOMOVILES(marca,modelo,precio,cantidadDisponibles) VALUES('{}', '{}','{}','{}')")
+            conexion.miCursor.execute("INSERT INTO AUTOMOVILES(marca,modelo,precio,cantidadDisponibles) VALUES('{}', '{}','{}','{}')".format(self.marca, self.modelo, self.precio, self.cantidadDisponibles))
             conexion.miConexion.commit()
             print("Automovil cargado exitosamente")
         except:
@@ -131,13 +131,14 @@ class Automovil:
 
 class Motocicleta:   
  
-    def __init__(self,modelo, marca, cilindrada, color, precio = None , fechaUltimoPrecio= None):
+    def __init__(self,modelo, marca, cilindrada, color, fechaUltimoPrecio, precio = None):
         self.modelo = modelo
         self.marca = marca
         self.cilindrada = cilindrada
         self.color = color
-        self.precio = precio
         self.fechaUltimoPrecio = fechaUltimoPrecio
+        self.precio = precio
+        
 
     def cargar_motocicleta(self):
         # Validar datos
