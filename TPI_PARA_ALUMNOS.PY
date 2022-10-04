@@ -22,6 +22,7 @@ class ProgramaPrincipal:
                     marca = input("Por favor ingrese la marca del automovil: ")
                     modelo = input("Por favor ingrese el modelo del automovil: ")
                     precio = input("Por favor ingrese el precio del automovil: ")
+                    # Validar con una funcion 
                     cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
@@ -61,14 +62,16 @@ class ProgramaPrincipal:
     def crearTablas(self):
         conexion = Conexiones()
         conexion.abrirConexion()
-        conexion.miCursor.execute("DROP TABLE IF EXISTS AUTOMOVILES")
-        conexion.miCursor.execute("CREATE TABLE AUTOMOVILES (id_automovil INTEGER PRIMARY KEY , marca  VARCHAR(30) ,modelo  VARCHAR(30),precio FLOAT NOT NULL, cantidadDisponibles INTEGER NOT NULL,UNIQUE(marca,modelo))")    
+        # conexion.miCursor.execute("DROP TABLE IF EXISTS AUTOMOVILES")
+        conexion.miCursor.execute("CREATE TABLE IF NOT EXISTS AUTOMOVILES (id_automovil INTEGER PRIMARY KEY , marca  VARCHAR(30) ,modelo  VARCHAR(30),precio FLOAT NOT NULL, cantidadDisponibles INTEGER NOT NULL,UNIQUE(marca,modelo))")    
         #Elimina la tabla si exite
-        conexion.miCursor.execute("DROP TABLE IF EXISTS MOTOCICLETAS") 
-        # Crea la tabla motocicleta
-        conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), precio INTEGER, color VARCHAR(30), fechaUltimoPrecio datetime)")
+        # conexion.miCursor.execute("DROP TABLE IF EXISTS MOTOCICLETAS") 
+        # Crea la tabla motocicleta si no existe
+        conexion.miCursor.execute("CREATE TABLE IF NOT EXISTS MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), precio INTEGER, color VARCHAR(30), fechaUltimoPrecio datetime)")
         conexion.miConexion.commit()       
         conexion.cerrarConexion()
+
+    # def validar():
 
 class Automovil:
     def __init__(self, marca, modelo,precio=None,cantidadDisponibles=None):
@@ -78,6 +81,7 @@ class Automovil:
         self.cantidadDisponibles=cantidadDisponibles
         
     def cargar_automovil(self):
+        # validar()
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
@@ -118,6 +122,8 @@ class Automovil:
 
     # def listado_automoviles(self):
 
+    # def validar():
+
 
 class Motocicleta:   
  
@@ -130,6 +136,7 @@ class Motocicleta:
         self.fechaUltimoPrecio = fechaUltimoPrecio
 
     def cargar_motocicleta(self):
+        # Validar datos
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
@@ -144,6 +151,8 @@ class Motocicleta:
     # def aumentar_precios(self):
 
     # def mostrar_registros(self):
+
+    # def validar():
     
 class Conexiones:
     
@@ -159,4 +168,3 @@ class Conexiones:
 programa = ProgramaPrincipal()
 programa.crearTablas()
 programa.menu()
-# programa.abrirConexion()
