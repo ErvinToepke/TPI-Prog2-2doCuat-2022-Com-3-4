@@ -44,8 +44,12 @@ class ProgramaPrincipal:
                 print("1- borrar automovil")
                 print("2- Borrar motocicleta")
                 num = int(input("Por favor ingrese una opcion"))
-                    #if num == 1:
-                    #if num == 2:
+                if num == 1:
+                    marca = input("Por favor ingrese el nombre de la marca: ")
+                    modelo = input("Por favor ingrese el nombre del modelo: ")
+                    autoABorrar=Automovil(marca, modelo)
+                    autoABorrar.borrar_automovil()
+                #if num == 2:
                 
             # if nro==4: cargar disponibilidad
             # if nro==5: listar vehiculo
@@ -85,7 +89,7 @@ class Automovil:
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("INSERT INTO AUTOMOVILES(marca,modelo,precio,cantidadDisponibles) VALUES('{}', '{}','{}','{}')".format(self.marca, self.modelo,self.precio,self.cantidadDisponibles))
+            conexion.miCursor.execute("INSERT INTO AUTOMOVILES(marca,modelo,precio,cantidadDisponibles) VALUES('{}', '{}','{}','{}')")
             conexion.miConexion.commit()
             print("Automovil cargado exitosamente")
         except:
@@ -106,17 +110,17 @@ class Automovil:
         finally:
             conexion.cerrarConexion()  
 
-    # def borrar_automovil(self):
-        # conexion = Conexiones()
-        # conexion.abrirConexion()
-        # try:
-        #     conexion.miCursor.execute("")
-        #     conexion.miConexion.commit()
-        #     print("Automovid borrado exitosamente")
-        # except:
-        #     print("Error al borrar un automovil")
-        # finally:
-        #     conexion.cerrarConexion()
+    def borrar_automovil(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            conexion.miCursor.execute("DELETE FROM AUTOMOVILES where marca='{}' and modelo='{}'" .format(self.marca, self.modelo))
+            conexion.miConexion.commit()
+            print("Automovil borrado exitosamente")
+        except:
+            print("Error al borrar un automovil")
+        finally:
+            conexion.cerrarConexion()
 
     # def cargar_disponibilidad(self):
 
