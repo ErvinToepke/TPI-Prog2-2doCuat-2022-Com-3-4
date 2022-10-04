@@ -5,35 +5,56 @@ class ProgramaPrincipal:
     def menu(self):
         while True:
             print("Menu de opciones Concesionaria")
-            print("1- Cargar Automovil")
-            print("2- Modificar Automovil")
-            print("3- Borrar Automovil")
+            print("1- Cargar vehivulo")
+            print("2- Modificar vehiculo")
+            print("3- Borrar vehiculo")
             print("4- Cargar disponibilidad")
-            print("5- Listar Automoviles")
-            print("6- Cargar Motocicleta")
-            print("7- Aumentar precios Motocicletas")
-            print("8- Mostrar registros Motocicletas")
+            print("5- Listar vehiculo")
+            print("6- Aumentar precios Motocicletas")
+            print("7- Mostrar registros Motocicletas")
             print("0- Salir de menu")
             nro = int(input("Por favor ingrese un número"))
             if nro == 1:
-                marca = input("Por favor ingrese la marca del automovil: ")
-                modelo = input("Por favor ingrese el modelo del automovil: ")
-                precio = input("Por favor ingrese el precio del automovil: ")
-                cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
-                nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
-                nuevo_automovil.cargar_automovil()
+                print("1- Cargar Automovil")
+                print("2- Cargar Motocicleta")
+                n = int(input("Por favor ingrese una opcion"))
+                if n == 1:
+                    marca = input("Por favor ingrese la marca del automovil: ")
+                    modelo = input("Por favor ingrese el modelo del automovil: ")
+                    precio = input("Por favor ingrese el precio del automovil: ")
+                    cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
+                    nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
+                    nuevo_automovil.cargar_automovil()
+                #if n == 2:
+                    #cargar moto
             if nro ==2:
-                marca = input("Por favor ingrese el nombre de la marca: ")
-                modelo = input("Por favor ingrese el nombre del modelo: ")
-                precio = input("Por favor ingrese el nuevo precio: ")
-                automovil_a_modificar=Automovil(marca,modelo,precio)
-                automovil_a_modificar.modificar_automoviles()
-            # if nro==3: borrar auto
+                print("1- modificar automovil")
+                print("2- modificar motocicleta")
+                nr = int(input("Por favor ingrese una opcion"))
+                if nr == 1:
+                    marca = input("Por favor ingrese el nombre de la marca: ")
+                    modelo = input("Por favor ingrese el nombre del modelo: ")
+                    precio = input("Por favor ingrese el nuevo precio: ")
+                    automovil_a_modificar=Automovil(marca,modelo,precio)
+                    automovil_a_modificar.modificar_automoviles()
+                #if nr == 2:
+                    #modificar moto
+            if nro==3:
+                print("1- borrar automovil")
+                print("2- Borrar motocicleta")
+                num = int(input("Por favor ingrese una opcion"))
+                    #if num == 1:
+                    #if num == 2:
+                
             # if nro==4: cargar disponibilidad
-            # if nro==5: listar automoviles
-            # if nro==6: cargar motocicleta
-            # if nro==7: aumentar precio motocicletas
-            # if nro==8: mostrar registros motocicletas
+            # if nro==5: listar vehiculo
+                #print("1- listar automovil")
+                #print("2- listar motocicleta")
+                #nu = int(input("Por favor ingrese una opcion"))
+                    #if nu == 1:
+                    #if nu == 2:
+            # if nro==6: aumentar precio motocicletas
+            # if nro==7: mostrar registros motocicletas
             if nro==0:
                 break
     
