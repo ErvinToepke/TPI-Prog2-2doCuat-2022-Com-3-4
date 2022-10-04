@@ -69,11 +69,11 @@ class Automovil:
             conexion.cerrarConexion()
     
     
-    def modificar_automoviles(self, precio: float, marca: str, modelo:str):
+    def modificar_automoviles(self):
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("UPDATE AUTOMOVILES SET precio='{precio}' where marca='{marca}' and modelo='{modelo}' ".format(self.precio,self.marca,self.modelo))
+            conexion.miCursor.execute("UPDATE AUTOMOVILES SET precio='{}' where marca='{}' and modelo='{}' ".format(self.precio,self.marca,self.modelo))
             conexion.miConexion.commit()
             print("Automovil modificado correctamente")
         except:
