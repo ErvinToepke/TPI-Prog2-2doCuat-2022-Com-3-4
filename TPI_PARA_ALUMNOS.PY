@@ -72,11 +72,12 @@ class ProgramaPrincipal:
                     motoABorrar=Motocicleta(marca, modelo)
                     motoABorrar.borrar_Motocicleta()
                 
-                if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
-                    marca = input("Ingrese marca del auto: ")
-                    modelo = input("Ingrese modelo del auto: ")
-                    automovil_a_incrementar=Automovil(marca,modelo)
-                    automovil_a_incrementar.cargar_disponibilidad()
+            if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
+                marca = input("Ingrese marca del auto: ")
+                modelo = input("Ingrese modelo del auto: ")
+                automovil_a_incrementar=Automovil(marca,modelo)
+                automovil_a_incrementar.cargar_disponibilidad()
+                
             if nro==5: 
                     Automovil.listado_automoviles(self)                    
             # if nro==6: aumentar precio motocicletas
