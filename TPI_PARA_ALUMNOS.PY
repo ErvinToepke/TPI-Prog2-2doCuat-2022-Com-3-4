@@ -1,3 +1,4 @@
+from enum import auto
 import sqlite3
 
 class ProgramaPrincipal:
@@ -22,24 +23,39 @@ class ProgramaPrincipal:
                     marca = input("Por favor ingrese la marca del automovil: ")
                     modelo = input("Por favor ingrese el modelo del automovil: ")
                     precio = input("Por favor ingrese el precio del automovil: ")
-                    # Validar con una funcion 
                     cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
-                #if n == 2:
-                    #cargar moto
+                if n == 2:
+                    modelo = input("Por favor ingrese el modelo de la motocicleta: ")
+                    marca = input("Por favor ingrese la marca de la motocicleta: ")
+                    cilindrada = input("Por favor ingrese la cilindrada: ")
+                    precio = input("Por favor ingrese el precio de la motocicleta: ") 
+                    cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
+                    nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,precio)
+                    nueva_motocicleta.cargar_motocicleta()
+                    
             if nro ==2:
                 print("1- modificar automovil")
                 print("2- modificar motocicleta")
                 nr = int(input("Por favor ingrese una opcion"))
+                
                 if nr == 1:
                     marca = input("Por favor ingrese el nombre de la marca: ")
                     modelo = input("Por favor ingrese el nombre del modelo: ")
                     precio = input("Por favor ingrese el nuevo precio: ")
-                    automovil_a_modificar=Automovil(marca,modelo,precio)
+                    automovil_a_modificar = Automovil(marca,modelo,precio)
                     automovil_a_modificar.modificar_automoviles()
-                #if nr == 2:
-                    #modificar moto
+                    
+                if nr == 2:
+                    marca = input("Por favor ingrese la marca: ")
+                    modelo = input("Por favor ingrese el modelo: ")
+                    cilindrada = input("Por favor ingresar la cilindrada: ")
+                    precio = input("Por favor ingrese el nuevo precio: ")
+                    color = input("Por favor ingrese el color: ")
+                    motocicleta_a_modificar = Motocicleta(marca,modelo,cilindrada,precio,color)
+                    motocicleta_a_modificar.modificar_motocicletas()
+            
             if nro==3:
                 print("1- borrar automovil")
                 print("2- Borrar motocicleta")
@@ -49,15 +65,20 @@ class ProgramaPrincipal:
                     modelo = input("Por favor ingrese el nombre del modelo: ")
                     autoABorrar=Automovil(marca, modelo)
                     autoABorrar.borrar_automovil()
-                #if num == 2:
+                if num == 2:
+                    marca = input("Por favor ingrese la marca: ")
+                    modelo = input("Por favor ingrese el modelo: ")
+                    cilindrada = input("Por favor ingrese la cilindrada: ")
+                    motoABorrar=Motocicleta(marca, modelo)
+                    motoABorrar.borrar_Motocicleta()
                 
-            # if nro==4: cargar disponibilidad
-            # if nro==5: listar vehiculo
-                #print("1- listar automovil")
-                #print("2- listar motocicleta")
-                #nu = int(input("Por favor ingrese una opcion"))
-                    #if nu == 1:
-                    #if nu == 2:
+                if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
+                    marca = input("Ingrese marca del auto: ")
+                    modelo = input("Ingrese modelo del auto: ")
+                    automovil_a_incrementar=Automovil(marca,modelo)
+                    automovil_a_incrementar.cargar_disponibilidad()
+            if nro==5: 
+                    Automovil.listado_automoviles(self)                    
             # if nro==6: aumentar precio motocicletas
             # if nro==7: mostrar registros motocicletas
             if nro==0:
@@ -109,6 +130,28 @@ class Automovil:
             print('Error al actualizar un automovil')
         finally:
             conexion.cerrarConexion()  
+            
+            
+    def cargar_disponibilidad(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            sql = "select * from AUTOMOVILES where marca = '"+ self.marca + "' and modelo = '" + self.modelo + "'"
+            conexion.miCursor.execute(sql)
+            rows = conexion.miCursor.fetchall()
+            if  rows:
+                sql = "update AUTOMOVILES SET cantidadDisponibles = cantidadDisponibles + 1 where marca = '" + self.marca + "' and modelo = '" + self.modelo + "'"
+                conexion.miCursor.execute(sql) 
+                conexion.miConexion.commit()
+                print("Automovil cargado exitosamente")
+    
+            else:
+                print ('no existen un automovil  marca ' + self.marca + ' -  modelo = ' + self.modelo )           
+            
+        except:
+            print("Error al cargar automovil")
+        finally:
+            conexion.cerrarConexion()
 
     def borrar_automovil(self):
         conexion = Conexiones()
@@ -122,9 +165,21 @@ class Automovil:
         finally:
             conexion.cerrarConexion()
 
-    # def cargar_disponibilidad(self):
-
-    # def listado_automoviles(self):
+    def listado_automoviles(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        
+        try:
+            conexion.miCursor.execute("SELECT * FROM AUTOMOVILES")
+            autos = conexion.miCursor.fetchall()           
+            for i in autos:
+                print(i)           
+        except:
+            print("no se han encontrado automoviles")
+            
+        finally: 
+            conexion.cerrarConexion
+        
 
     # def validar():
 
