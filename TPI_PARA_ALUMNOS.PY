@@ -1,3 +1,4 @@
+from datetime import date
 from enum import auto
 import sqlite3
 
@@ -14,25 +15,28 @@ class ProgramaPrincipal:
             print("6- Aumentar precios Motocicletas")
             print("7- Mostrar registros Motocicletas")
             print("0- Salir de menu")
-            nro = int(input("Por favor ingrese un número"))
+            nro = int(input("Por favor ingrese un número: "))
+
             if nro == 1:
                 print("1- Cargar Automovil")
                 print("2- Cargar Motocicleta")
-                n = int(input("Por favor ingrese una opcion"))
+                n = int(input("Por favor ingrese una opcion: "))
+                
                 if n == 1:
                     marca = input("Por favor ingrese la marca del automovil: ")
                     modelo = input("Por favor ingrese el modelo del automovil: ")
-                    precio = input("Por favor ingrese el precio del automovil: ")
+                    precio = input("Por favor ingrese el precio del automovil:  ")
                     cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
+                
                 if n == 2:
+                    marca = input("Por favor ingrese la marca de la motocicleta: ") 
                     modelo = input("Por favor ingrese el modelo de la motocicleta: ")
-                    marca = input("Por favor ingrese la marca de la motocicleta: ")
-                    cilindrada = input("Por favor ingrese la cilindrada: ")
+                    cilindrada = input("Por favor ingrese la cilindrada de la motocicleta: ")
+                    color = input("Por favor ingrese el color de la motocicleta: ")
                     precio = input("Por favor ingrese el precio de la motocicleta: ") 
-                    cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
-                    nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,precio)
+                    nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,color,precio)
                     nueva_motocicleta.cargar_motocicleta()
                     
             if nro ==2:
@@ -60,6 +64,7 @@ class ProgramaPrincipal:
                 print("1- borrar automovil")
                 print("2- Borrar motocicleta")
                 num = int(input("Por favor ingrese una opcion"))
+                
                 if num == 1:
                     marca = input("Por favor ingrese el nombre de la marca: ")
                     modelo = input("Por favor ingrese el nombre del modelo: ")
@@ -88,12 +93,12 @@ class ProgramaPrincipal:
     def crearTablas(self):
         conexion = Conexiones()
         conexion.abrirConexion()
-        conexion.miCursor.execute("DROP TABLE IF EXISTS AUTOMOVILES")
+        conexion.miCursor.execute("DROP TABLE AUTOMOVILES")
         conexion.miCursor.execute("CREATE TABLE AUTOMOVILES (id_automovil INTEGER PRIMARY KEY , marca  VARCHAR(30) ,modelo  VARCHAR(30),precio FLOAT NOT NULL, cantidadDisponibles INTEGER NOT NULL,UNIQUE(marca,modelo))")    
         #Elimina la tabla si exite
-        conexion.miCursor.execute("DROP TABLE IF EXISTS MOTOCICLETAS") 
+        conexion.miCursor.execute("DROP TABLE MOTOCICLETAS") 
         # Crea la tabla motocicleta si no existe
-        conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), precio INTEGER, color VARCHAR(30), fechaUltimoPrecio datetime)")
+        conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), color VARCHAR(30), precio INTEGER, fechaUltimoPrecio date)")
         conexion.miConexion.commit()       
         conexion.cerrarConexion()
 
@@ -188,13 +193,13 @@ class Automovil:
 
 class Motocicleta:   
  
-    def __init__(self,modelo, marca, cilindrada, color, fechaUltimoPrecio, precio = None):
-        self.modelo = modelo
+    def __init__(self,modelo, marca, cilindrada, color, precio = None,fechaUltimoPrecio = date.today()):
         self.marca = marca
+        self.modelo = modelo
         self.cilindrada = cilindrada
         self.color = color
-        self.fechaUltimoPrecio = fechaUltimoPrecio
         self.precio = precio
+        self.fechaUltimoPrecio = fechaUltimoPrecio
         
 
     def cargar_motocicleta(self):
@@ -202,7 +207,7 @@ class Motocicleta:
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("INSERT INTO MOTOCICLETAS(modelo,marca,cilindrada,precio,fechaUltimoPrecio) VALUES('{}', '{}','{}','{}','{}')".format(self.modelo,self.marca,self.cilindrada,self.precio,self.fechaUltimoPrecio))
+            conexion.miCursor.execute("INSERT INTO MOTOCICLETAS(modelo,marca,cilindrada,color,precio,fechaUltimoPrecio) VALUES('{}', '{}','{}','{}','{}','{}')".format(self.modelo,self.marca,self.cilindrada,self.color,self.precio,self.fechaUltimoPrecio))
             conexion.miConexion.commit()
             print("Motocicleta cargada exitosamente")
         except:
