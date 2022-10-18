@@ -77,11 +77,11 @@ class ProgramaPrincipal:
                     motoABorrar=Motocicleta(marca, modelo)
                     motoABorrar.borrar_Motocicleta()
                 
-                if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
-                    marca = input("Ingrese marca del auto: ")
-                    modelo = input("Ingrese modelo del auto: ")
-                    automovil_a_incrementar=Automovil(marca,modelo)
-                    automovil_a_incrementar.cargar_disponibilidad()
+            if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
+                marca = input("Ingrese marca del auto: ")
+                modelo = input("Ingrese modelo del auto: ")
+                automovil_a_incrementar=Automovil(marca,modelo)
+                automovil_a_incrementar.cargar_disponibilidad()
             # if nro==5: listar vehiculo
                 #print("1- listar automovil")
                 #print("2- listar motocicleta")
@@ -183,7 +183,26 @@ class Automovil:
         finally:
             conexion.cerrarConexion()
 
-    # def cargar_disponibilidad(self):
+    def cargar_disponibilidad(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            sql = "select * from AUTOMOVILES where marca = '"+ self.marca + "' and modelo = '" + self.modelo + "'"
+            conexion.miCursor.execute(sql)
+            rows = conexion.miCursor.fetchall()
+            if  rows:
+                sql = "update AUTOMOVILES SET cantidadDisponibles = cantidadDisponibles + 1 where marca = '" + self.marca + "' and modelo = '" + self.modelo + "'"
+                conexion.miCursor.execute(sql) 
+                conexion.miConexion.commit()
+                print("Automovil cargado exitosamente")
+
+            else:
+                print ('no existen un automovil  marca ' + self.marca + ' -  modelo = ' + self.modelo )
+
+        except:
+            print("Error al cargar automovil")
+        finally:
+            conexion.cerrarConexion()
 
     # def listado_automoviles(self):
 
