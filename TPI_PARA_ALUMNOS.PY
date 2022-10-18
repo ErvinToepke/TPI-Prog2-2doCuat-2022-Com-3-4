@@ -1,3 +1,5 @@
+from datetime import date
+from enum import auto
 import sqlite3
 
 class ProgramaPrincipal:
@@ -13,67 +15,80 @@ class ProgramaPrincipal:
             print("6- Aumentar precios Motocicletas")
             print("7- Mostrar registros Motocicletas")
             print("0- Salir de menu")
-            nro = int(input("Por favor ingrese un número"))
+            nro = int(input("Por favor ingrese un número: "))
+
             if nro == 1:
                 print("1- Cargar Automovil")
                 print("2- Cargar Motocicleta")
-                n = int(input("Por favor ingrese una opcion"))
+                n = int(input("Por favor ingrese una opcion: "))
+                
                 if n == 1:
                     marca = input("Por favor ingrese la marca del automovil: ")
                     modelo = input("Por favor ingrese el modelo del automovil: ")
-                    precio = input("Por favor ingrese el precio del automovil: ")
-                    # Validar con una funcion 
+                    precio = input("Por favor ingrese el precio del automovil:  ")
                     cantidadDisponibles = input("Por favor ingrese la cantidad de unidades disponibles: ")
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
-                #if n == 2:
-                    #cargar moto
+                
+                if n == 2:
+                    marca = input("Por favor ingrese la marca de la motocicleta: ") 
+                    modelo = input("Por favor ingrese el modelo de la motocicleta: ")
+                    cilindrada = input("Por favor ingrese la cilindrada de la motocicleta: ")
+                    color = input("Por favor ingrese el color de la motocicleta: ")
+                    precio = input("Por favor ingrese el precio de la motocicleta: ") 
+                    nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,color,precio)
+                    nueva_motocicleta.cargar_motocicleta()
+                    
             if nro ==2:
                 print("1- modificar automovil")
                 print("2- modificar motocicleta")
                 nr = int(input("Por favor ingrese una opcion"))
+                
                 if nr == 1:
                     marca = input("Por favor ingrese el nombre de la marca: ")
                     modelo = input("Por favor ingrese el nombre del modelo: ")
                     precio = input("Por favor ingrese el nuevo precio: ")
-                    automovil_a_modificar=Automovil(marca,modelo,precio)
+                    automovil_a_modificar = Automovil(marca,modelo,precio)
                     automovil_a_modificar.modificar_automoviles()
-                #if nr == 2:
-                    #modificar moto
+                    
+                if nr == 2:
+                    marca = input("Por favor ingrese la marca: ")
+                    modelo = input("Por favor ingrese el modelo: ")
+                    cilindrada = input("Por favor ingresar la cilindrada: ")
+                    precio = input("Por favor ingrese el nuevo precio: ")
+                    color = input("Por favor ingrese el color: ")
+                    motocicleta_a_modificar = Motocicleta(marca,modelo,cilindrada,precio,color)
+                    motocicleta_a_modificar.modificar_motocicletas()
+            
             if nro==3:
                 print("1- borrar automovil")
                 print("2- Borrar motocicleta")
                 num = int(input("Por favor ingrese una opcion"))
+                
                 if num == 1:
                     marca = input("Por favor ingrese el nombre de la marca: ")
                     modelo = input("Por favor ingrese el nombre del modelo: ")
                     autoABorrar=Automovil(marca, modelo)
                     autoABorrar.borrar_automovil()
-                #if num == 2:
+                if num == 2:
+                    marca = input("Por favor ingrese la marca: ")
+                    modelo = input("Por favor ingrese el modelo: ")
+                    cilindrada = input("Por favor ingrese la cilindrada: ")
+                    motoABorrar=Motocicleta(marca, modelo)
+                    motoABorrar.borrar_Motocicleta()
                 
                 if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
                     marca = input("Ingrese marca del auto: ")
                     modelo = input("Ingrese modelo del auto: ")
                     automovil_a_incrementar=Automovil(marca,modelo)
                     automovil_a_incrementar.cargar_disponibilidad()
-                    
-            if nro==5:
-                print("1- listar automovil")
-                print("2- listar motocicleta")
-                nu = int(input("Por favor ingrese una opcion"))
-                if nu == 1:
-                    marca = input("Por favor ingrese la marca del automovil: ")
-                    modelo = input("Por favor ingrese el modelo del automovil: ")
-                    listado_de_autos=Automovil(marca,modelo)
-                    autos = listado_de_autos.listado_automoviles()
-                if nu == 2:
-                    marca = input("Ingrese marca de la motocicleta")
-                    modelo = input("Ingrese el modelo de la motocicleta")
-                    
-                    
-               # if nu == 2:
-            if nro==6: #aumentar precio motocicletas
-                Motocicleta.aumentar_precios(Motocicleta)
+            # if nro==5: listar vehiculo
+                #print("1- listar automovil")
+                #print("2- listar motocicleta")
+                #nu = int(input("Por favor ingrese una opcion"))
+                    #if nu == 1:
+                    #if nu == 2:
+            # if nro==6: aumentar precio motocicletas
             # if nro==7: mostrar registros motocicletas
             if nro==0:
                  break
@@ -81,12 +96,12 @@ class ProgramaPrincipal:
     def crearTablas(self):
         conexion = Conexiones()
         conexion.abrirConexion()
-        conexion.miCursor.execute("DROP TABLE IF EXISTS AUTOMOVILES")
+        conexion.miCursor.execute("DROP TABLE AUTOMOVILES")
         conexion.miCursor.execute("CREATE TABLE AUTOMOVILES (id_automovil INTEGER PRIMARY KEY , marca  VARCHAR(30) ,modelo  VARCHAR(30),precio FLOAT NOT NULL, cantidadDisponibles INTEGER NOT NULL,UNIQUE(marca,modelo))")    
         #Elimina la tabla si exite
-        conexion.miCursor.execute("DROP TABLE IF EXISTS MOTOCICLETAS") 
+        conexion.miCursor.execute("DROP TABLE MOTOCICLETAS") 
         # Crea la tabla motocicleta si no existe
-        conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), precio INTEGER, color VARCHAR(30), fechaUltimoPrecio datetime)")
+        conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), color VARCHAR(30), precio INTEGER, fechaUltimoPrecio date)")
         conexion.miConexion.commit()       
         conexion.cerrarConexion()
 
@@ -135,7 +150,7 @@ class Automovil:
             rows = conexion.miCursor.fetchall()
             if  rows:
                 sql = "update AUTOMOVILES SET cantidadDisponibles = cantidadDisponibles + 1 where marca = '" + self.marca + "' and modelo = '" + self.modelo + "'"
-                conexion.miCursor.execute (sql) 
+                conexion.miCursor.execute(sql) 
                 conexion.miConexion.commit()
                 print("Automovil cargado exitosamente")
     
@@ -159,35 +174,22 @@ class Automovil:
         finally:
             conexion.cerrarConexion()
 
-    def listado_automoviles(self):
-        conexion = Conexiones()
-        conexion.abrirConexion()
-        try:
-            conexion.miCursor.execute("SHOW TABLES * from AUTOMOVILES where marca = '"+ self.marca + "' and modelo = '" + self.modelo + "'")
-            conexion.miConexion.commit()
-            print("listado de automoviles: ")
-        except:
-            print("Error al mostrar lista")
-        finally:
-            conexion.cerrarConexion()
-            
-                        
-        for i in autos:
-            print(str(i[0]) + " | " + str(i[1]) + " | " + str(i[2]) + " | "  + str(i[3]) + " | "  + str([4]) )
-            
+    # def cargar_disponibilidad(self):
+
+    # def listado_automoviles(self):
 
     # def validar():
 
 
 class Motocicleta:   
  
-    def __init__(self,modelo, marca, cilindrada, color, fechaUltimoPrecio, precio = None):
-        self.modelo = modelo
+    def __init__(self,modelo, marca, cilindrada, color, precio = None,fechaUltimoPrecio = date.today()):
         self.marca = marca
+        self.modelo = modelo
         self.cilindrada = cilindrada
         self.color = color
-        self.fechaUltimoPrecio = fechaUltimoPrecio
         self.precio = precio
+        self.fechaUltimoPrecio = fechaUltimoPrecio
         
 
     def cargar_motocicleta(self):
@@ -195,7 +197,7 @@ class Motocicleta:
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
-            conexion.miCursor.execute("INSERT INTO MOTOCICLETAS(modelo,marca,cilindrada,precio,fechaUltimoPrecio) VALUES('{}', '{}','{}','{}','{}')".format(self.modelo,self.marca,self.cilindrada,self.precio,self.fechaUltimoPrecio))
+            conexion.miCursor.execute("INSERT INTO MOTOCICLETAS(modelo,marca,cilindrada,color,precio,fechaUltimoPrecio) VALUES('{}', '{}','{}','{}','{}','{}')".format(self.modelo,self.marca,self.cilindrada,self.color,self.precio,self.fechaUltimoPrecio))
             conexion.miConexion.commit()
             print("Motocicleta cargada exitosamente")
         except:
