@@ -88,7 +88,8 @@ class ProgramaPrincipal:
                 #nu = int(input("Por favor ingrese una opcion"))
                     #if nu == 1:
                     #if nu == 2:
-            # if nro==6: aumentar precio motocicletas
+            if nro==6: #aumentar precio motocicletas
+                Motocicleta.aumentar_precios(Motocicleta)
             # if nro==7: mostrar registros motocicletas
             if nro==0:
                  break
@@ -219,7 +220,21 @@ class Motocicleta:
         finally:
             conexion.cerrarConexion()
 
-    def aumentar_precios(self):
+def guardar_registros(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            conexion.miCursor.execute("SELECT * FROM MOTOCICLETAS")
+            motocicletas = conexion.miCursor.fetchall()
+            conexion.miCursor.executemany("INSERT INTO HISTORICO_MOTOCICLETAS VALUES(?,?,?,?,?,?,?)", motocicletas)
+            conexion.miConexion.commit()
+            print("Registros guardados exitosamente")
+        except:
+            print("Error al guardar registros")
+        finally:
+            conexion.cerrarConexion()
+
+def aumentar_precios(self):
         self.guardar_registros(self)
         conexion = Conexiones()
         conexion.abrirConexion()
