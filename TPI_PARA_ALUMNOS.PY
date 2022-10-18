@@ -84,7 +84,7 @@ class ProgramaPrincipal:
                 automovil_a_incrementar.cargar_disponibilidad()
                 
             if nro==5: 
-                    Automovil.listado_automoviles(self)                    
+                    Automovil.listado_automoviles(Automovil)                    
             # if nro==6: aumentar precio motocicletas
             # if nro==7: mostrar registros motocicletas
             if nro==0:
@@ -174,16 +174,16 @@ class Automovil:
     def listado_automoviles(self):
         conexion = Conexiones()
         conexion.abrirConexion()
-        
         try:
             conexion.miCursor.execute("SELECT * FROM AUTOMOVILES")
-            autos = conexion.miCursor.fetchall()           
-            for i in autos:
-                print(i)           
-                  
+            autos = conexion.miCursor.fetchall()
+            if(autos):
+                for auto in autos:
+                    print("ID:",auto[0]," Marca:",auto[1]," Modelo:",auto[2]," Precio:",auto[3]," Cantidad disponible:", auto[4])
+            else:
+                print("No se han encontrado registros de automoviles")
         except:
-            print("no se han encontrado automoviles")
-            
+            print("Error al listar automoviles")
         finally: 
             conexion.cerrarConexion
         
