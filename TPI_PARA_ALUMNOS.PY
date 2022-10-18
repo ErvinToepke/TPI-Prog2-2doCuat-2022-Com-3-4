@@ -56,16 +56,27 @@ class ProgramaPrincipal:
                     modelo = input("Ingrese modelo del auto: ")
                     automovil_a_incrementar=Automovil(marca,modelo)
                     automovil_a_incrementar.cargar_disponibilidad()
-            # if nro==5: listar vehiculo
-                #print("1- listar automovil")
-                #print("2- listar motocicleta")
-                #nu = int(input("Por favor ingrese una opcion"))
-                    #if nu == 1:
-                    #if nu == 2:
-            # if nro==6: aumentar precio motocicletas
+                    
+            if nro==5:
+                print("1- listar automovil")
+                print("2- listar motocicleta")
+                nu = int(input("Por favor ingrese una opcion"))
+                if nu == 1:
+                    marca = input("Por favor ingrese la marca del automovil: ")
+                    modelo = input("Por favor ingrese el modelo del automovil: ")
+                    listado_de_autos=Automovil(marca,modelo)
+                    autos = listado_de_autos.listado_automoviles()
+                if nu == 2:
+                    marca = input("Ingrese marca de la motocicleta")
+                    modelo = input("Ingrese el modelo de la motocicleta")
+                    
+                    
+               # if nu == 2:
+            if nro==6: #aumentar precio motocicletas
+                Motocicleta.aumentar_precios(Motocicleta)
             # if nro==7: mostrar registros motocicletas
             if nro==0:
-                break
+                 break
     
     def crearTablas(self):
         conexion = Conexiones()
@@ -148,9 +159,22 @@ class Automovil:
         finally:
             conexion.cerrarConexion()
 
-    # def cargar_disponibilidad(self):
-
-    # def listado_automoviles(self):
+    def listado_automoviles(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            conexion.miCursor.execute("SHOW TABLES * from AUTOMOVILES where marca = '"+ self.marca + "' and modelo = '" + self.modelo + "'")
+            conexion.miConexion.commit()
+            print("listado de automoviles: ")
+        except:
+            print("Error al mostrar lista")
+        finally:
+            conexion.cerrarConexion()
+            
+                        
+        for i in autos:
+            print(str(i[0]) + " | " + str(i[1]) + " | " + str(i[2]) + " | "  + str(i[3]) + " | "  + str([4]) )
+            
 
     # def validar():
 
@@ -179,7 +203,32 @@ class Motocicleta:
         finally:
             conexion.cerrarConexion()
 
-    # def aumentar_precios(self):
+    def guardar_registros(self):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            conexion.miCursor.execute("SELECT * FROM MOTOCICLETAS")
+            motocicletas = conexion.miCursor.fetchall()
+            conexion.miCursor.executemany("INSERT INTO HISTORICO_MOTOCICLETAS VALUES(?,?,?,?,?,?,?)", motocicletas)
+            conexion.miConexion.commit()
+            print("Registros guardados exitosamente")
+        except:
+            print("Error al guardar registros")
+        finally:
+            conexion.cerrarConexion()
+
+    def aumentar_precios(self):
+        self.guardar_registros(self)
+        conexion = Conexiones()
+        conexion.abrirConexion()
+        try:
+            conexion.miCursor.execute("UPDATE MOTOCICLETAS SET precio = precio + precio * 0.1, fechaUltimoPrecio = '{}'".format(date.today()))
+            conexion.miConexion.commit()
+            print("Precios actualizados exitosamente")
+        except:
+            print("Error al actualizar precios")
+        finally:
+            conexion.cerrarConexion()
 
     # def mostrar_registros(self):
 
