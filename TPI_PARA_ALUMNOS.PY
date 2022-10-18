@@ -90,9 +90,15 @@ class ProgramaPrincipal:
                     #if nu == 2:
             if nro==6: #aumentar precio motocicletas
                 Motocicleta.aumentar_precios(Motocicleta)
-            # if nro==7: mostrar registros motocicletas
+            
+            if nro==7: #mostrar registros motocicletas
+                dia = int(input("Por favor ingrese día: "))
+                mes = int(input("Por favor ingrese mes: "))
+                anio = int(input("Por favor ingrese año: "))
+                Motocicleta.mostrar_registros(Motocicleta, date(anio,mes, dia))
+
             if nro==0:
-                 break
+                break
     
     def crearTablas(self):
         conexion = Conexiones()
@@ -103,6 +109,8 @@ class ProgramaPrincipal:
         conexion.miCursor.execute("DROP TABLE MOTOCICLETAS") 
         # Crea la tabla motocicleta si no existe
         conexion.miCursor.execute("CREATE TABLE MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), color VARCHAR(30), precio INTEGER, fechaUltimoPrecio date)")
+        conexion.miCursor.execute("DROP TABLE HISTORICO_MOTOCICLETAS") 
+        conexion.miCursor.execute("CREATE TABLE HISTORICO_MOTOCICLETAS (id_moto INTEGER PRIMARY KEY, modelo VARCHAR(30), marca VARCHAR(30), cilindrada VARCHAR(30), color VARCHAR(30), precio INTEGER, fechaUltimoPrecio date)")
         conexion.miConexion.commit()       
         conexion.cerrarConexion()
 
@@ -183,7 +191,7 @@ class Automovil:
 
 
 class Motocicleta:   
- 
+
     def __init__(self,modelo, marca, cilindrada, color, precio = None,fechaUltimoPrecio = date.today()):
         self.marca = marca
         self.modelo = modelo
@@ -220,7 +228,7 @@ class Motocicleta:
         finally:
             conexion.cerrarConexion()
 
-def guardar_registros(self):
+    def guardar_registros(self):
         conexion = Conexiones()
         conexion.abrirConexion()
         try:
@@ -234,7 +242,7 @@ def guardar_registros(self):
         finally:
             conexion.cerrarConexion()
 
-def aumentar_precios(self):
+    def aumentar_precios(self):
         self.guardar_registros(self)
         conexion = Conexiones()
         conexion.abrirConexion()
@@ -247,7 +255,24 @@ def aumentar_precios(self):
         finally:
             conexion.cerrarConexion()
 
-    # def mostrar_registros(self):
+    def mostrar_registros(self, fecha):
+        conexion = Conexiones()
+        conexion.abrirConexion()
+
+        try:
+            conexion.miCursor.execute("SELECT * FROM MOTOCICLETAS WHERE fechaUltimoPrecio = '{}'".format(fecha))
+            registros = conexion.miCursor.fetchall()
+            if(registros):
+                for registro in registros:
+                    print("ID:", registro[0]," Marca:",registro[1]," Modelo:",registro[2]," Cilindrada:",registro[3]," Color:",registro[4]," Precio:", registro[5]," Fecha ultimo precio:", registro[6])
+            else:
+                print("No se encuentran registros con fecha = ", date.strftime(fecha, "%d-%m-%Y"))
+
+        except:
+            print("Error al mostrar registros")
+
+        finally: 
+            conexion.cerrarConexion
 
     # def validar():
     
