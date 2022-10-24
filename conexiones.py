@@ -8,9 +8,3 @@ class Conexiones:
         
     def cerrarConexion(self):
         self.miConexion.close()   
-
-
-            
-programa = ProgramaPrincipal()
-programa.crearTablas()
-programa.menu()

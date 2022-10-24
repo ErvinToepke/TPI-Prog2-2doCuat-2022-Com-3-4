@@ -3,6 +3,7 @@ from enum import auto
 from conexiones import Conexiones
 from motocicleta import Motocicleta
 from automovil import Automovil
+
 class ProgramaPrincipal:
 
     def menu(self):
@@ -16,14 +17,33 @@ class ProgramaPrincipal:
             print("6- Aumentar precios Motocicletas")
             print("7- Mostrar registros Motocicletas")
             print("0- Salir de menu")
-            nro = int(input("Por favor ingrese un número: "))
 
-            if nro == 1:
-                print("1- Cargar Automovil")
-                print("2- Cargar Motocicleta")
-                n = int(input("Por favor ingrese una opcion: "))
+            try:
+                nro = int(input("Por favor ingrese un número: "))
+            except:
+                print("Error! Debe ingresar un valor numerico")    
+                continue
+
+            if (nro<0 or nro>7):
+                print("Error! Debe ingresar un número que corresponda con las opciones de menú")
+                continue
+
+            if nro == 1: #cargar automovil o motocicleta
+                  
+                while True:
+                    print("1- Cargar Automovil")
+                    print("2- Cargar Motocicleta")
+                    try:
+                        n = int(input("Por favor ingrese una opcion: "))
+                    except:
+                        print("Error! Debe ingresar un valor numerico")    
+                        continue
+                    if (n<1 or n>2):
+                        print("Error! Debe ingresar un número que corresponda con las opciones de menú")
+                        continue
+                    break
                 
-                if n == 1:
+                if n == 1: #cargar automovil
                     marca = self.validarStr(input("Por favor ingrese la marca del automovil: "))
                     modelo = self.validarStr(input("Por favor ingrese el modelo del automovil:"))    
 
@@ -48,7 +68,7 @@ class ProgramaPrincipal:
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
                 
-                if n == 2:
+                if n == 2: #cargar motocicleta
                     marca = self.validarStr(input("Por favor ingrese la marca de la motocicleta: ")) 
                     modelo = self.validarStr(input("Por favor ingrese el modelo de la motocicleta: "))
                     cilindrada = self.validarStr(input("Por favor ingrese la cilindrada de la motocicleta: "))
@@ -64,39 +84,26 @@ class ProgramaPrincipal:
                     nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,color,precio)
                     nueva_motocicleta.cargar_motocicleta()
                     
-            if nro ==2:
-                print("1- modificar automovil")
-                # print("2- modificar motocicleta")
-                n = int(input("Por favor ingrese una opcion"))
-                
-                if n == 1:
-                    marca = self.validarStr(input("Por favor ingrese el nombre de la marca: "))
-                    modelo = self.validarStr(input("Por favor ingrese el nombre del modelo: "))
-                    validar = False    
-                    while(not validar):
-                        try:
-                            precio = float(input("Por favor ingrese el nuevo precio: "))
-                        except TypeError:
-                            print("Error! Debe ingresar un valor numerico")
-                        finally:
-                            validar = self.validarPrecio(precio)
-                    automovil_a_modificar = Automovil(marca,modelo,precio)
-                    automovil_a_modificar.modificar_automoviles()
+            if nro ==2: #modificar automovil
+                marca = self.validarStr(input("Por favor ingrese el nombre de la marca: "))
+                modelo = self.validarStr(input("Por favor ingrese el nombre del modelo: "))
+                validar = False    
+                while(not validar):
+                    try:
+                        precio = float(input("Por favor ingrese el nuevo precio: "))
+                    except TypeError:
+                        print("Error! Debe ingresar un valor numerico")
+                    finally:
+                        validar = self.validarPrecio(precio)
+                automovil_a_modificar = Automovil(marca,modelo,precio)
+                automovil_a_modificar.modificar_automoviles()
                     
-                # if n == 2:
             
-            if nro==3:
-                print("1- borrar automovil")
-                # print("2- Borrar motocicleta")
-                n = int(input("Por favor ingrese una opcion"))
-                
-                if n == 1:
-                    marca = self.validarStr(input("Por favor ingrese el nombre de la marca: "))
-                    modelo = self.validarStr(input("Por favor ingrese el nombre del modelo: "))
-                    autoABorrar=Automovil(marca, modelo)
-                    autoABorrar.borrar_automovil()
-
-                # if n == 2:
+            if nro==3: #borrar automovil
+                marca = self.validarStr(input("Por favor ingrese el nombre de la marca: "))
+                modelo = self.validarStr(input("Por favor ingrese el nombre del modelo: "))
+                autoABorrar=Automovil(marca, modelo)
+                autoABorrar.borrar_automovil()
                 
             if nro==4:  #cargar marca y modelo e incremetnar su valor en la base de datos
                 marca = self.validarStr(input("Por favor ingrese marca del auto: "))
@@ -104,7 +111,7 @@ class ProgramaPrincipal:
                 automovil_a_incrementar=Automovil(marca,modelo)
                 automovil_a_incrementar.cargar_disponibilidad()
 
-            if nro==5:    
+            if nro==5: #mostrar listado de automoviles
                 Automovil.listado_automoviles(Automovil)    
 
             if nro==6: #aumentar precio motocicletas
@@ -165,6 +172,7 @@ class ProgramaPrincipal:
             return False
         return True
 
-
-
+programa = ProgramaPrincipal()
+programa.crearTablas()
+programa.menu()
     
