@@ -82,13 +82,13 @@ class Automovil:
                 sql = "update AUTOMOVILES SET cantidadDisponibles = cantidadDisponibles + 1 where marca = '" + self.marca + "' and modelo = '" + self.modelo + "'"
                 conexion.miCursor.execute(sql) 
                 conexion.miConexion.commit()
-                print("Automovil cargado exitosamente")
+                print("Disponibilidad agregada con exito")
 
             else:
-                print ('no existen un automovil  marca ' + self.marca + ' -  modelo = ' + self.modelo )
+                print ('No existe un automovil  marca ' + self.marca + ' -  modelo = ' + self.modelo )
 
         except:
-            print("Error al cargar automovil")
+            print("Error al cargar disponibilidad")
         finally:
             conexion.cerrarConexion()
 

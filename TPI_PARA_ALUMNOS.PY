@@ -9,7 +9,7 @@ class ProgramaPrincipal:
     def menu(self):
         while True:
             print("Menu de opciones Concesionaria")
-            print("1- Cargar vehivulo")
+            print("1- Cargar vehiculo")
             print("2- Modificar vehiculo")
             print("3- Borrar vehiculo")
             print("4- Cargar disponibilidad")
@@ -51,19 +51,19 @@ class ProgramaPrincipal:
                     while(not validar):
                         try:
                             precio = float(input("Por favor ingrese el precio del automovil: "))
-                        except TypeError:
+                        except:
                             print("Error! Debe ingresar un valor numerico")
-                        finally:
-                            validar = self.validarPrecio(precio)
+                            continue
+                        validar = self.validarPrecio(precio)
                             
                     validar = False    
                     while(not validar):
                         try:
                             cantidadDisponibles = int(input("Por favor ingrese la cantidad de unidades disponibles: "))
-                        except TypeError:
+                        except:
                             print("Error! Debe ingresar un número entero")
-                        finally:
-                            validar = self.validarCantidad(cantidadDisponibles)
+                            continue
+                        validar = self.validarCantidad(cantidadDisponibles)
 
                     nuevo_automovil = Automovil(marca,modelo,precio,cantidadDisponibles)
                     nuevo_automovil.cargar_automovil()
@@ -76,11 +76,11 @@ class ProgramaPrincipal:
                     validar = False    
                     while(not validar):
                         try:
-                            precio = float(input("Por favor ingrese el precio de la motocicleta: "))
-                        except TypeError:
+                            precio = int(input("Por favor ingrese el precio de la motocicleta: "))
+                        except:
                             print("Error! Debe ingresar un valor numerico")
-                        finally:
-                            validar = self.validarPrecio(precio)
+                            continue
+                        validar = self.validarPrecio(precio)
                     nueva_motocicleta = Motocicleta(modelo,marca,cilindrada,color,precio)
                     nueva_motocicleta.cargar_motocicleta()
                     
@@ -91,10 +91,10 @@ class ProgramaPrincipal:
                 while(not validar):
                     try:
                         precio = float(input("Por favor ingrese el nuevo precio: "))
-                    except TypeError:
+                    except:
                         print("Error! Debe ingresar un valor numerico")
-                    finally:
-                        validar = self.validarPrecio(precio)
+                        continue
+                    validar = self.validarPrecio(precio)
                 automovil_a_modificar = Automovil(marca,modelo,precio)
                 automovil_a_modificar.modificar_automoviles()
                     
@@ -119,15 +119,15 @@ class ProgramaPrincipal:
             
             if nro==7: #mostrar registros motocicletas
                 validar = False
-                while validar:
+                while (not validar):
                     try:
                         dia = int(input("Por favor ingrese día: "))
                         mes = int(input("Por favor ingrese mes: "))
                         anio = int(input("Por favor ingrese año: "))
-                    except TypeError:
+                    except:
                         print("Error! Debe ingresar un numero entero")
-                    finally:
-                        validar = self.validarFecha(dia,mes, anio)
+                        continue
+                    validar = self.validarFecha(dia,mes, anio)
                 Motocicleta.mostrar_registros(Motocicleta, date(anio,mes, dia))
 
             if nro==0:

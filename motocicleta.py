@@ -11,12 +11,11 @@ class Motocicleta:
         self.precio = precio
         self.fechaUltimoPrecio = fechaUltimoPrecio
         
-
     def cargar_motocicleta(self):
         try:
             self.validar()
         except:
-            print("Error al cargar datos del automovil")
+            print("Error al cargar datos de la motocicleta")
         else:
             conexion = Conexiones()
             conexion.abrirConexion()
@@ -28,20 +27,6 @@ class Motocicleta:
                 print("Error al agregar una motocicleta")
             finally:
                 conexion.cerrarConexion()
-
-    def guardar_registros(self):
-        conexion = Conexiones()
-        conexion.abrirConexion()
-        try:
-            conexion.miCursor.execute("SELECT * FROM MOTOCICLETAS")
-            motocicletas = conexion.miCursor.fetchall()
-            conexion.miCursor.executemany("INSERT INTO HISTORICO_MOTOCICLETAS VALUES(?,?,?,?,?,?,?)", motocicletas)
-            conexion.miConexion.commit()
-            print("Registros guardados exitosamente")
-        except:
-            print("Error al guardar registros")
-        finally:
-            conexion.cerrarConexion()
 
     def guardar_registros(self):
         conexion = Conexiones()
